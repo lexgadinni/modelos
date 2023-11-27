@@ -308,3 +308,25 @@ top: 20px;
     margin-right: 5px;
   }
 
+  .copiarmodelo
+{
+
+    display: inline-block;
+    padding: 1px 3px;
+    margin-top: 15px; /* Adicione uma margem superior para afastar o botão da linha */
+    margin-bottom: 5px; /* Adicione uma margem inferior para afastar o botão da linha */
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 4px;
+}
+
+.copiarmodelo:hover {
+    background-color: #4e4c4c;
+}
+
+
+
+
+

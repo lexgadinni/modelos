@@ -6,18 +6,33 @@ const Url = 'https://fdanootkoafdhoyobkzp.supabase.co';
 
 const database = supabase.createClient(Url, Key);
 
+
+
+
+
 // Função para copiar modelos
-async function copiarModelo(textoModelo) {
+function copiarModelo(textoModelo) {
   try {
     // Crie um elemento temporário para armazenar o texto formatado
     const tempElement = document.createElement('div');
     tempElement.innerHTML = textoModelo;
 
-    // Obtém o texto sem interpretar as tags HTML
-    const textoSemTags = tempElement.textContent;
+    // Adicione o elemento temporário ao corpo do documento
+    document.body.appendChild(tempElement);
 
-    // Copie o texto para a área de transferência
-    await navigator.clipboard.writeText(textoSemTags);
+    // Selecione o texto no elemento temporário
+    const range = document.createRange();
+    range.selectNodeContents(tempElement);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    // Execute o comando de cópia
+    document.execCommand('copy');
+
+    // Limpe a seleção e remova o elemento temporário
+    selection.removeAllRanges();
+    document.body.removeChild(tempElement);
 
     alert("Modelo copiado para a área de transferência!");
   } catch (err) {
@@ -25,6 +40,12 @@ async function copiarModelo(textoModelo) {
     alert('Erro ao copiar o modelo. Consulte o console para obter mais detalhes.');
   }
 }
+
+
+
+
+
+
 
 
 
@@ -49,15 +70,27 @@ function exibirModelos(departamento, departamentoNome) {
     }
   });
 
+
+
+
+
   // Atualize a indicação da aba atual
   document.getElementById("aba-atual").textContent = departamentoNome;
   document.getElementById("busca").value = ""; // Limpar o campo de busca
 }
 
+
+
+
 // Função para excluir um modelo específico
 async function excluirModelo(modeloId) {
   const modeloContainer = document.getElementById(modeloId);
   modeloContainer.remove();
+
+
+
+
+
 
   // Remova o modelo do Supabase
   try {
@@ -78,11 +111,18 @@ async function excluirModelo(modeloId) {
   }
 }
 
+
+
+
 // Função para exibir o formulário para adicionar modelos
 function exibirFormulario() {
   document.getElementById("modelo-form").style.display = "block";
   document.querySelector("form").reset();
 }
+
+
+
+
 
 // Função para limpar o formulário e redefinir os valores
 function limparFormulario() {
@@ -110,6 +150,9 @@ document.querySelector("form").addEventListener("submit", async function (event)
 });
 
 
+
+
+
 // Função para adicionar um modelo
 async function adicionarModelo(titulo, departamento, texto) {
   const departamentosAceitos = ["privado", "corporativo", "regional", "publicos", "cofres"];
@@ -121,11 +164,19 @@ async function adicionarModelo(titulo, departamento, texto) {
     return;
   }
 
-  // Adiciona o modelo ao Supabase
+  // Crie um elemento temporário para armazenar o texto formatado
+  const tempElement = document.createElement('div');
+  tempElement.innerHTML = texto;
+
+
+  // Obtenha o texto formatado
+  const textoFormatado = tempElement.innerHTML;
+
+  // Adicione o modelo ao Supabase
   try {
     const { data, error } = await database
       .from('modelos')
-      .insert([{ titulo, departamento, texto: texto }]);
+      .insert([{ titulo, departamento, texto: textoFormatado }]);
 
     if (error) {
       console.error('Erro ao adicionar o modelo:', error);
@@ -141,33 +192,9 @@ async function adicionarModelo(titulo, departamento, texto) {
 }
 
 
-// Função para editar um modelo
-function editarModelo(modeloId) {
-  // Implemente a lógica para permitir a edição do modelo com o ID fornecido
-  // Pode ser exibindo um formulário pré-preenchido ou utilizando algum método de edição inline
-  // Certifique-se de incluir uma função de salvamento para aplicar as alterações no Supabase
-}
 
-// Função para salvar as alterações em um modelo
-async function salvarAlteracoesModelo(modeloId, novoTitulo, novoTexto) {
-  try {
-    const { data, error } = await database
-      .from('modelos')
-      .update({ titulo: novoTitulo, texto: novoTexto })
-      .eq('id', modeloId);
 
-    if (error) {
-      console.error('Erro ao salvar as alterações do modelo:', error);
-      alert('Erro ao salvar as alterações do modelo. Consulte o console para obter mais detalhes.');
-    } else {
-      alert('Alterações salvas com sucesso!');
-      carregarModelos(); // Recarrega os modelos após a alteração
-    }
-  } catch (error) {
-    console.error('Erro ao salvar as alterações do modelo:', error);
-    alert('Erro ao salvar as alterações do modelo. Consulte o console para obter mais detalhes.');
-  }
-}
+
 
 // Exemplo de implementação na função editarModelo
 function editarModelo(modeloId) {
@@ -200,6 +227,9 @@ function buscarModelos() {
   });
 }
 
+
+
+
 // Função para atualizar o título de um modelo
 function atualizarTitulo(modeloId) {
   const modeloContainer = document.getElementById(modeloId);
@@ -211,7 +241,9 @@ function atualizarTitulo(modeloId) {
 }
 
 
-// Função para excluir modelos selecionados
+
+
+
 // Função para excluir modelos selecionados
 async function excluirModelosSelecionados() {
   const checkboxes = document.querySelectorAll(".modelo-checkbox");
@@ -245,6 +277,7 @@ async function excluirModelosSelecionados() {
 }
 
 
+// funçao carregarModelos
 
 async function carregarModelos() {
   try {
@@ -263,6 +296,10 @@ async function carregarModelos() {
         container.innerHTML = '';
       });
 
+
+
+
+
       // Adicione os modelos aos contêineres apropriados
       data.forEach((modelo) => {
         const container = document.getElementById(`${modelo.departamento}Container`);
@@ -276,8 +313,16 @@ async function carregarModelos() {
   }
 }
 
+
+
+
+
+
 // Chame carregarModelos quando a página é carregada
 document.addEventListener("DOMContentLoaded", carregarModelos);
+
+
+
 
 
 // Função auxiliar para criar o HTML de um modelo
@@ -293,7 +338,7 @@ function criarModeloHtml(modelo) {
     <button onclick="editarModelo('${modelo.id}')">Editar</button>
   </h2>
   <p>${modelo.texto}</p>
-  <button onclick="copiarModelo('${modelo.texto}')">Copiar Modelo</button>
+  <button class="copiarmodelo" onclick="copiarModelo('${modelo.texto}')">Copiar Modelo</button>
 `;
 
   return modeloHtml;
