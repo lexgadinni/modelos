@@ -116,7 +116,16 @@ async function excluirModelo(modeloId) {
 
 // Função para exibir o formulário para adicionar modelos
 function exibirFormulario() {
-  document.getElementById("modelo-form").style.display = "block";
+  // Mova o formulário para o topo da lista
+  const modelosContainer = document.getElementById("privadoContainer"); // Use o container apropriado
+  const formulario = document.getElementById("modelo-form");
+
+  modelosContainer.insertBefore(formulario, modelosContainer.firstChild);
+
+  // Exiba o formulário
+  formulario.style.display = "block";
+
+  // Limpe o formulário e redefina os valores
   document.querySelector("form").reset();
 }
 
