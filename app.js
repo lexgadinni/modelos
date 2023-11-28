@@ -99,7 +99,7 @@ async function excluirModelo(modeloId) {
     } else {
       alert('Modelo excluído com sucesso!');
       // Recarrega a página imediatamente após a exclusão
-      window.location.reload();
+      window.location.reload(true); // O parâmetro true força o recarregamento da página do servidor, ignorando o cache do navegador
     }
   } catch (error) {
     console.error('Erro ao excluir o modelo:', error);
@@ -107,7 +107,6 @@ async function excluirModelo(modeloId) {
   }
 }
 
-}
 
 
 
