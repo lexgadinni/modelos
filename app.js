@@ -189,13 +189,17 @@ async function adicionarModelo(titulo, departamento, texto) {
       alert('Erro ao adicionar o modelo. Consulte o console para obter mais detalhes.');
     } else {
       alert('Modelo adicionado com sucesso!');
-      window.location.reload(); // Recarrega a página
+      // Recarrega a página após um curto intervalo (por exemplo, 1 segundo)
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   } catch (error) {
     console.error('Erro ao adicionar o modelo:', error);
     alert('Erro ao adicionar o modelo. Consulte o console para obter mais detalhes.');
   }
 }
+
 
 
 
