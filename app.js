@@ -167,21 +167,18 @@ async function adicionarModelo(titulo, departamento, texto) {
   const departamentosAceitos = ["privado", "corporativo", "regional", "publicos", "cofres"];
 
   if (!departamentosAceitos.includes(departamento)) {
-    alert(
-      "Departamento inválido. Os departamentos aceitos são: privado, corporativo, regional, publicos, cofres."
-    );
+    alert("Departamento inválido. Os departamentos aceitos são: privado, corporativo, regional, publicos, cofres.");
     return;
   }
 
-  // Crie um elemento temporário para armazenar o texto formatado
+  // Cria um elemento temporário para armazenar o texto formatado
   const tempElement = document.createElement('div');
   tempElement.innerHTML = texto;
 
-
-  // Obtenha o texto formatado
+  // Obtém o texto formatado
   const textoFormatado = tempElement.innerHTML;
 
-  // Adicione o modelo ao Supabase
+  // Adiciona o modelo ao Supabase
   try {
     const { data, error } = await database
       .from('modelos')
@@ -192,13 +189,14 @@ async function adicionarModelo(titulo, departamento, texto) {
       alert('Erro ao adicionar o modelo. Consulte o console para obter mais detalhes.');
     } else {
       alert('Modelo adicionado com sucesso!');
-      carregarModelos(); // Recarrega os modelos após adição
+      window.location.reload(); // Recarrega a página
     }
   } catch (error) {
     console.error('Erro ao adicionar o modelo:', error);
     alert('Erro ao adicionar o modelo. Consulte o console para obter mais detalhes.');
   }
 }
+
 
 
 
