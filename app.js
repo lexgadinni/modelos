@@ -81,8 +81,7 @@ function exibirModelos(departamento, departamentoNome) {
 
 
 
-
-/// Função para excluir um modelo específico
+// Função para excluir um modelo específico
 async function excluirModelo(modeloId) {
   const modeloContainer = document.getElementById(modeloId);
   modeloContainer.remove();
@@ -99,15 +98,15 @@ async function excluirModelo(modeloId) {
       alert('Erro ao excluir o modelo. Consulte o console para obter mais detalhes.');
     } else {
       alert('Modelo excluído com sucesso!');
-      // Recarrega a página após um curto intervalo (por exemplo, 1 segundo)
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // Recarrega a página imediatamente após a exclusão
+      window.location.reload();
     }
   } catch (error) {
     console.error('Erro ao excluir o modelo:', error);
     alert('Erro ao excluir o modelo. Consulte o console para obter mais detalhes.');
   }
+}
+
 }
 
 
